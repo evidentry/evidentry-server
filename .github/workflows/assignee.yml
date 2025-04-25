@@ -22,5 +22,5 @@ jobs:
       - name: 🔄 Auto Assign
         uses: actions-ecosystem/action-add-assignees@v1
         with:
-          assignees: '${{ github.repository_owner }}'
+          assignees: 'justedlev'
           github_token: '${{ secrets.GITHUB_TOKEN }}'
