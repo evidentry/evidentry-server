@@ -43,7 +43,7 @@
         <url>https://github.com/justedlev/${project.artifactId}</url>
     </scm>
     <properties>
-        <java.version>21</java.version>
+        <java.version>17</java.version>
     </properties>
     <dependencies>
         <dependency>
