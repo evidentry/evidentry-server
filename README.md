@@ -9,7 +9,7 @@ It is designed to be lightweight, extensible, and easy to integrate.
 
 ## ⚙️ Tech Stack
 
-- Java 21
+- Java 17+
 - Spring Boot 3 (WebFlux)
 - Spring Data R2DBC
 - H2 Database (in-memory)
