@@ -1,13 +1,7 @@
-"status: ready for review":
-  - any:
-    - "*"
-
-"area: build":
+"status: review":
   - changed-files:
     - any-glob-to-any-file:
-      - '**/pom.xml'
-      - '**/build.gradle'
-      - '**/build.gradle.kts'
+      - "*"
 
 "type: build":
   - changed-files:
@@ -16,7 +10,7 @@
       - '**/build.gradle'
       - '**/build.gradle.kts'
 
-"language: java":
+"lang: java":
   - changed-files:
     - any-glob-to-any-file:
       - '**/*.java'
@@ -60,7 +54,7 @@
       - '**/*Test.java'
       - '**/*Tests.java'
 
-"type: documentation":
+"type: docs":
   - changed-files:
     - any-glob-to-any-file:
       - '**/*.md'
