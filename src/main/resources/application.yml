@@ -1,9 +1,23 @@
+server:
+  servlet:
+    context-path: /api
 spring:
+  mvc:
+    problemdetails:
+      enabled: true
   application:
     name: evidentry
-  r2dbc:
-    url: r2dbc:h2:mem:///evidentrydb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:h2:file:~/.h2/${spring.application.name};DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;AUTO_RECONNECT=TRUE;MODE=PostgreSQL;
+    driver-class-name: org.h2.Driver
     username: sa
   h2:
     console:
       enabled: true
+logging:
+  level:
+    sql: debug
+    web: debug
