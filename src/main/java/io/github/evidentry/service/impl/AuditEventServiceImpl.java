@@ -5,7 +5,6 @@ import io.github.evidentry.model.AuditEventResponse;
 import io.github.evidentry.model.params.AuditEventFilterParams;
 import io.github.evidentry.repository.AuditEventRepository;
 import io.github.evidentry.repository.entity.AuditEvent;
-import io.github.evidentry.repository.entity.AuditEventAttribute;
 import io.github.evidentry.repository.entity.AuditEventChange;
 import io.github.evidentry.repository.entity.AuditEvent_;
 import io.github.evidentry.service.AuditEventService;
@@ -36,23 +35,14 @@ public class AuditEventServiceImpl implements AuditEventService {
                             .auditorId(r.auditorId())
                             .entityId(r.entityId())
                             .build();
-                    auditEvent.attributes(request.attributes()
-                            .entrySet()
-                            .stream()
-                            .map(entry -> AuditEventAttribute.builder()
-                                    .auditEvent(auditEvent)
-                                    .name(entry.getKey())
-                                    .value(entry.getValue())
-                                    .build())
-                            .collect(Collectors.toSet()));
-                    auditEvent.changes(
+                    auditEvent.setAttributes(request.attributes());
+                    auditEvent.setChanges(
                             request.changes()
                                     .stream()
                                     .map(entry -> AuditEventChange.builder()
                                             .field(entry.field())
                                             .type(ObjectUtils.toString(entry.type(), () -> entry.value().getClass().getName()))
                                             .value(entry.value().toString())
-                                            .auditEvent(auditEvent)
                                             .build())
                                     .collect(Collectors.toSet())
                     );
@@ -61,22 +51,20 @@ public class AuditEventServiceImpl implements AuditEventService {
                 })
                 .map(auditEventRepository::save)
                 .map(e -> AuditEventResponse.builder()
-                        .id(e.id())
-                        .createdAt(LocalDateTime.ofInstant(e.createdAt(), ZoneId.systemDefault()))
-                        .entityType(e.entityType())
-                        .entityId(e.entityId())
-                        .auditorId(e.auditorId())
-                        .changes(e.changes()
+                        .id(e.getId())
+                        .createdAt(LocalDateTime.ofInstant(e.getCreatedAt(), ZoneId.systemDefault()))
+                        .entityType(e.getEntityType())
+                        .entityId(e.getEntityId())
+                        .auditorId(e.getAuditorId())
+                        .changes(e.getChanges()
                                 .stream()
                                 .map(c -> AuditEventResponse.Change.builder()
-                                        .field(c.field())
-                                        .value(c.value())
-                                        .type(c.type())
+                                        .field(c.getField())
+                                        .value(c.getValue())
+                                        .type(c.getType())
                                         .build())
                                 .collect(Collectors.toSet()))
-                        .attributes(e.attributes()
-                                .stream()
-                                .collect(Collectors.toMap(AuditEventAttribute::name, AuditEventAttribute::value)))
+                        .attributes(e.getAttributes())
                         .build())
                 .orElseThrow();
     }
@@ -90,22 +78,20 @@ public class AuditEventServiceImpl implements AuditEventService {
         );
         var page = auditEventRepository.findAll(specs, pageable)
                 .map(e -> AuditEventResponse.builder()
-                        .id(e.id())
-                        .createdAt(LocalDateTime.ofInstant(e.createdAt(), ZoneId.systemDefault()))
-                        .entityType(e.entityType())
-                        .entityId(e.entityId())
-                        .auditorId(e.auditorId())
-                        .changes(e.changes()
+                        .id(e.getId())
+                        .createdAt(LocalDateTime.ofInstant(e.getCreatedAt(), ZoneId.systemDefault()))
+                        .entityType(e.getEntityType())
+                        .entityId(e.getEntityId())
+                        .auditorId(e.getAuditorId())
+                        .changes(e.getChanges()
                                 .stream()
                                 .map(c -> AuditEventResponse.Change.builder()
-                                        .field(c.field())
-                                        .value(c.value())
-                                        .type(c.type())
+                                        .field(c.getField())
+                                        .value(c.getValue())
+                                        .type(c.getType())
                                         .build())
                                 .collect(Collectors.toSet()))
-                        .attributes(e.attributes()
-                                .stream()
-                                .collect(Collectors.toMap(AuditEventAttribute::name, AuditEventAttribute::value)))
+                        .attributes(e.getAttributes())
                         .build());
 
         return new PagedModel<>(page);

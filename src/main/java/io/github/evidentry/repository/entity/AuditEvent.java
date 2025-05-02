@@ -5,7 +5,6 @@ import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import lombok.experimental.Accessors;
 import org.hibernate.annotations.*;
 import org.hibernate.annotations.CascadeType;
 import org.springframework.data.annotation.CreatedDate;
@@ -22,7 +21,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(builderClassName = "Builder")
-@Accessors(fluent = true, chain = true)
 @Entity
 @Table(name = "audit_event", indexes = {
         @Index(columnList = "entity_id, entity_type"),
